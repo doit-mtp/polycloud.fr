@@ -11,6 +11,10 @@ export default defineConfig({
 
   integrations: [react()],
 
+  devToolbar: {
+    enabled: false,
+  },
+
   redirects: {
     // The sponsors page now lives on the home page
     '/sponsor': '/#sponsors',
