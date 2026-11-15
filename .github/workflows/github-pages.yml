@@ -4,9 +4,10 @@ on:
   push:
     branches: ['main']
   # Daily rebuild: the site's wording follows the event date (before / on the day / after),
-  # which is computed at build time. 3:00 UTC is early morning in Paris.
+  # which is computed at build time. 00:07 UTC = 01:07 Paris (CET) / 02:07 (CEST).
+  # Off-the-hour minute to reduce GitHub's scheduled-run queueing delay.
   schedule:
-    - cron: '0 3 * * *'
+    - cron: '7 0 * * *'
   workflow_dispatch:
 
 permissions:
