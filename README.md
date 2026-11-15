@@ -9,20 +9,16 @@ Live at **<https://polycloud.fr>**.
 ## Tech stack
 
 - **[Astro](https://astro.build) 7**: static site, every page is pre-rendered at build time.
-- **[Tailwind CSS](https://tailwindcss.com) 4**: styling. Brand colours and fonts are defined in `src/styles/global.css`.
-- **[React](https://react.dev) 19**: only for the mobile menu (`MobileNav.tsx`). Everything else is plain Astro and HTML, with a few small scripts.
-- **TypeScript**: the content (programmes, sponsors, team) is typed data, not a CMS.
-- **[oxfmt](https://oxc.rs)**: formatter.
 - **GitHub Pages**: hosting, deployed by GitHub Actions.
 
 ## Getting started
-
-You need Node.js 22+ and [pnpm](https://pnpm.io).
 
 ```sh
 pnpm install
 pnpm dev        # http://localhost:4321/
 ```
+
+> Corepack should automatically download the correct Node and pnpm version for development.
 
 | Command        | Action                             |
 | :------------- | :--------------------------------- |
@@ -30,24 +26,6 @@ pnpm dev        # http://localhost:4321/
 | `pnpm build`   | Build the site to `./dist/`        |
 | `pnpm preview` | Serve the production build locally |
 | `pnpm format`  | Format the code with oxfmt         |
-
-> If the dev server throws `Cannot read properties of null (reading 'useState')` after a config change, restart it with `pnpm dev --force` and hard-reload the page.
-
-## Project structure
-
-```
-src/
-├── data/
-│   ├── editions/      One file per edition: programme, replays, sponsors, team, tickets, CFP
-│   └── site.ts        Things that don't change between editions: links, nav, socials, venue
-├── lib/
-│   ├── url.ts         route() helper for pathnames
-│   └── cta.ts         Main call to action, depending on the event phase
-├── components/        Layout pieces and UI components
-├── pages/             One file per route
-└── styles/global.css  Tailwind theme
-public/                Images, press kit, downloadable files
-```
 
 ## Working on the content
 
