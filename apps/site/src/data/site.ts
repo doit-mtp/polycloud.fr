@@ -82,3 +82,12 @@ export const venue = {
     },
   ],
 } as const;
+
+/** The partner request form on /sponsors and the API it posts to (apps/worker). */
+export const sponsorForm = {
+  apiUrl: 'https://api.polycloud.fr/forms/sponsor',
+  // Public site key of the Turnstile widget (Cloudflare dashboard → Turnstile).
+  // Until the API is deployed this is Cloudflare's test key, which always passes in the browser.
+  turnstileSiteKey: '1x00000000000000000000AA',
+  email: 'contact@polycloud.fr',
+};

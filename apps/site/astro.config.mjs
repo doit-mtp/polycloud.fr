@@ -16,8 +16,8 @@ export default defineConfig({
   },
 
   redirects: {
-    // The sponsors page now lives on the home page
-    '/sponsor': '/#sponsors',
+    // Old sponsors URL
+    '/sponsor': '/sponsors',
     // Past programmes moved to their edition page
     '/programme/2025': '/previous-editions/2025',
     '/programme/2024': '/previous-editions/2024',
