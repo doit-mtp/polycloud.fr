@@ -3,5 +3,5 @@ import { defineConfig } from 'oxfmt';
 export default defineConfig({
   singleQuote: true,
   jsxSingleQuote: true,
-  ignorePatterns: ['*.gen.ts'],
+  ignorePatterns: ['*.gen.ts', 'worker-configuration.d.ts'],
 });

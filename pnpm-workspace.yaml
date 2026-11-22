@@ -1,2 +1,7 @@
 packages:
   - apps/*
+
+# Install scripts allowed to run (both download a native binary used by wrangler)
+allowBuilds:
+  esbuild: true
+  workerd: true

@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "polycloud-sponsor-form",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "minify": true,
+
+  "routes": [{ "pattern": "api.polycloud.fr", "custom_domain": true }],
+  "vars": {
+    "ALLOWED_ORIGINS": "https://polycloud.fr",
+    "MAIL_FROM": "Polycloud <noreply@polycloud.fr>",
+    "MAIL_TO": "contact@polycloud.fr",
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "polycloud-sponsor-requests",
+      "database_id": "beb55ca2-2e80-4d68-979b-b8096c8fe2fe",
+      "migrations_dir": "migrations",
+    },
+  ],
+
+  "triggers": {
+    // Deletes the requests past their retention period, every Monday at 04:00 UTC
+    "crons": ["0 4 * * 1"],
+  },
+
+  "secrets_store_secrets": [
+    {
+      "binding": "RESEND_API_KEY",
+      "secret_name": "RESEND_API_KEY",
+      "store_id": "ae67a9ae8f1e4edea800ffbd26501a62",
+    },
+    {
+      "binding": "TURNSTILE_SECRET",
+      "secret_name": "TURNSTILE_SECRET",
+      "store_id": "ae67a9ae8f1e4edea800ffbd26501a62",
+    },
+  ],
+}
