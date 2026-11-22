@@ -31,6 +31,9 @@ jobs:
         uses: withastro/action@v6
         with:
           path: apps/site
+          # Since it's in a sub-directory the action doesn't see the pnpm-lockfile and is unable to
+          # figure out we're using pnpm so we explicitly define the package manager to use.
+          package-manager: pnpm@12.21.0
 
   deploy:
     needs: build
