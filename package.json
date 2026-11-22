@@ -1,28 +1,10 @@
 {
-  "name": "@doit/polycloud.fr",
-  "version": "0.0.0",
-  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
     "format": "oxfmt"
   },
-  "dependencies": {
-    "@astrojs/react": "^7.1.8",
-    "@fontsource-variable/montserrat": "^5.3.0",
-    "@tailwindcss/vite": "^4.3.5",
-    "astro": "^7.4.11",
-    "react": "^19.3.1",
-    "react-dom": "^19.3.1",
-    "tailwindcss": "^4.3.5"
-  },
   "devDependencies": {
-    "oxfmt": "^0.72.0",
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0"
+    "oxfmt": "^0.72.0"
   },
   "devEngines": {
     "packageManager": {
