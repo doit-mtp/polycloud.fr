@@ -32,7 +32,7 @@ export const tiers: TierOffer[] = [
     priceEur: 500,
     includes: 'Soutien',
     perks: [
-      "Table dans l'espace partenaires",
+      "Table dans l'espace sponsors",
       'Post dédié',
       'Distribution de vos goodies',
       "Badges pour toute l'équipe présente",
@@ -53,7 +53,7 @@ export const tiers: TierOffer[] = [
     slots: '1 seule place',
     includes: 'Or',
     perks: [
-      "Partenaire principal de l'édition",
+      "Sponsor principal de l'édition",
       "Mot d'ouverture (3 min)",
       'Le plus grand stand',
       '2 posts dédiés',

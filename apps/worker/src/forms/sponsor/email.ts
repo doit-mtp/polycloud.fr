@@ -11,7 +11,7 @@ export function notificationEmail(
   const value = (text: string | null) => text || EMPTY;
 
   const text = [
-    'Nouvelle demande de partenariat reçue sur polycloud.fr.',
+    'Nouvelle demande de sponsoring reçue sur polycloud.fr.',
     '',
     `Entreprise : ${request.company}`,
     `Site web : ${value(request.website)}`,
@@ -32,7 +32,7 @@ export function notificationEmail(
   return {
     from,
     to: [to],
-    subject: `Demande de partenariat : ${request.company} (${request.tier.label})`,
+    subject: `Demande de sponsoring : ${request.company} (${request.tier.label})`,
     text,
     replyTo: request.email,
   };
