@@ -68,7 +68,14 @@ export function errorMessage(status: number, body: unknown, email: string): stri
 }
 
 /** A message to show instead of sending, or null when the form can be sent. */
-export function checkBeforeSend(token: string): string | null {
+export function checkBeforeSend(
+  token: string,
+  turnstileUnavailable: boolean,
+  email: string,
+): string | null {
+  if (!token && turnstileUnavailable) {
+    return `La vérification anti-robot n'a pas pu se charger (bloqueur de publicité ?). Écrivez-nous à ${email}.`;
+  }
   // Turnstile fills its token a moment after the page loads, and again after each reset
   if (!token) {
     return 'Merci de patienter pendant la vérification anti-robot, puis réessayez.';

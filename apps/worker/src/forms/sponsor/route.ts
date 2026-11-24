@@ -23,12 +23,12 @@ sponsorForm.post(
     const id = await insertSponsorRequest(c.env.DB, request, new Date());
 
     // Sent after answering, so a slow email service never keeps the visitor waiting.
-    // If it fails, the request is still in D1.
+    // If it fails, reading the API key included, the request is still in D1 and the answer a 201.
     const email = notificationEmail(request, { from: c.env.MAIL_FROM, to: c.env.MAIL_TO });
     c.executionCtx.waitUntil(
-      sendEmail(await c.env.RESEND_API_KEY.get(), email).catch((error) =>
-        console.error(`Could not email sponsor request ${id}`, error),
-      ),
+      c.env.RESEND_API_KEY.get()
+        .then((apiKey) => sendEmail(apiKey, email))
+        .catch((error) => console.error(`Could not email sponsor request ${id}`, error)),
     );
 
     return c.json({ ok: true } as const, 201);

@@ -118,7 +118,7 @@ const textFields = [
     </fieldset>
 
     <div class="flex flex-col items-start gap-4">
-      <div class="cf-turnstile" data-sitekey={sponsorForm.turnstileSiteKey} data-language="fr" data-theme="light"></div>
+      <div class="cf-turnstile" data-sitekey={sponsorForm.turnstileSiteKey} data-language="fr" data-theme="light" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError"></div>
       <p id="form-error" role="alert" class="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-800" hidden></p>
       <button
         type="submit"
@@ -128,7 +128,7 @@ const textFields = [
       </button>
       <p class="max-w-2xl text-xs leading-relaxed text-plum-950/60">
         Les informations saisies sont utilisées par DO IT Montpellier pour traiter votre demande de sponsoring et sont
-        conservées 3 ans. Pour exercer vos droits : {sponsorForm.email}. En savoir plus :
+        conservées 3 ans. Pour exercer vos droits&nbsp;: <a href={`mailto:${sponsorForm.email}`} class="underline decoration-plum-200 underline-offset-2 hover:decoration-plum-600">{sponsorForm.email}</a>. En savoir plus&nbsp;:{" "}
         <a href="/mentions-legales#formulaire-sponsors" class="underline decoration-plum-200 underline-offset-2 hover:decoration-plum-600"
           >mentions légales</a
         >.
@@ -148,6 +148,15 @@ const textFields = [
   </noscript>
 </div>
 
+<script is:inline>
+  // Called by the Turnstile widget. Defined before api.js, which may run before the module script below.
+  window.onTurnstileError = () => {
+    window.turnstileFailed = true;
+  };
+  window.onTurnstileSuccess = () => {
+    window.turnstileFailed = false;
+  };
+</script>
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
@@ -183,8 +192,9 @@ const textFields = [
       }
       slot.textContent = message;
       slot.hidden = false;
-      const input = form.querySelector<HTMLElement>(`[name="${field}"]`);
-      input?.setAttribute("aria-invalid", "true");
+      const input =
+        form.querySelector<HTMLElement>(`[name="${field}"]:checked`) ?? form.querySelector<HTMLElement>(`[name="${field}"]`);
+      form.querySelectorAll(`[name="${field}"]`).forEach((el) => el.setAttribute("aria-invalid", "true"));
       first ??= input;
     }
     first?.focus();
@@ -195,12 +205,18 @@ const textFields = [
     formError.hidden = false;
   }
 
+  /** Whether Turnstile will not deliver a token: its widget failed, or its script did not load (ad blocker). */
+  function turnstileUnavailable() {
+    const { turnstile, turnstileFailed } = window as { turnstile?: unknown; turnstileFailed?: boolean };
+    return Boolean(turnstileFailed) || (!turnstile && document.readyState === "complete");
+  }
+
   const submit = submitOnce(async () => {
     clearErrors();
     const data = new FormData(form);
     const payload = buildPayload(data, choices);
     const token = turnstileToken(data);
-    const notReady = checkBeforeSend(token);
+    const notReady = checkBeforeSend(token, turnstileUnavailable(), form.dataset.email!);
     if (notReady) {
       showFormError(notReady);
       return;
@@ -210,6 +226,7 @@ const textFields = [
     try {
       const response = await fetch(form.dataset.apiUrl!, {
         method: "POST",
+        signal: AbortSignal.timeout(20_000),
         headers: { "Content-Type": "application/json", [TURNSTILE_HEADER]: token },
         body: JSON.stringify(payload),
       }).catch(() => null);
@@ -232,6 +249,8 @@ const textFields = [
     } finally {
       button.disabled = false;
       button.textContent = "Envoyer ma demande";
+      // Disabling the button dropped its focus
+      if (document.activeElement === document.body) button.focus();
     }
   });
 
