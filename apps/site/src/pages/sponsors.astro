@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+import SponsorForm from "../components/SponsorForm.astro";
+---
+
+<Layout
+  title="Devenir sponsor"
+  description="Soutenez la Polycloud 2027, la conférence Cloud & DevOps gratuite des étudiant·e·s de Polytech Montpellier : paliers, prix et demande de sponsoring."
+>
+  <PageHero eyebrow="Polycloud 2027" title="Devenir sponsor">
+    <p>
+      La Polycloud est une conférence Cloud &amp; DevOps gratuite, organisée par les étudiant·e·s de Polytech Montpellier.
+      Dites-nous ce qui vous intéresse&nbsp;: l'équipe vous recontacte sous une semaine avec la convention.
+    </p>
+  </PageHero>
+
+  <div class="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+    <div class="max-w-3xl">
+      <div class="rounded-3xl bg-white/60 p-6 ring-1 ring-plum-900/5 sm:p-9">
+        <SponsorForm />
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -10,6 +10,7 @@ export const links = {
 export const nav: { label: string; href: string; secondary?: boolean }[] = [
   { label: 'Accueil', href: '/' },
   { label: 'Sponsors', href: '/#sponsors', secondary: true },
+  { label: 'Devenir sponsor', href: '/sponsors', secondary: true },
   { label: 'Accès', href: '/#informations', secondary: true },
   { label: 'Programme', href: '/programme' },
   { label: 'Speakers', href: '/speaker' },
@@ -82,3 +83,13 @@ export const venue = {
     },
   ],
 } as const;
+
+/** The partner request form on /sponsors and the API it posts to (apps/worker). */
+export const sponsorForm = {
+  // In `astro dev`: the local Worker, and Cloudflare's always-passing test key
+  apiUrl: import.meta.env.DEV
+    ? 'http://localhost:8787/forms/sponsor'
+    : 'https://api.polycloud.fr/forms/sponsor',
+  turnstileSiteKey: import.meta.env.DEV ? '1x00000000000000000000AA' : '0x4AAAAAAGNgdBoWrdG1xDNY',
+  email: 'contact@polycloud.fr',
+};

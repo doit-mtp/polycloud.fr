@@ -29,16 +29,15 @@ export const optionalText = (max: number) =>
 /** A required email address, trimmed. */
 export const email = () => requiredText(254).pipe(z.email(messages.badEmail));
 
-/** A choice made on a form: its stable id, and the label the visitor saw. */
-export const choice = () =>
-  z.object(
-    {
-      id: z.string({ error: messages.badChoice }).regex(/^[a-z0-9-]{1,40}$/, messages.badChoice),
-      label: z
-        .string({ error: messages.badChoice })
-        .trim()
-        .min(1, messages.badChoice)
-        .max(120, messages.badChoice),
-    },
-    { error: (issue) => (issue.input == null ? messages.required : messages.badChoice) },
-  );
+/** A choice made on a form, sent as its id and turned into the matching option. Other ids are refused. */
+export const choice = <T extends { id: string }>(options: readonly T[]) =>
+  z
+    .string({
+      error: (issue) => (issue.input == null ? messages.required : messages.badChoice),
+    })
+    .transform((id, ctx) => {
+      const option = options.find((o) => o.id === id);
+      if (option) return option;
+      ctx.addIssue({ code: 'custom', message: messages.badChoice });
+      return z.NEVER;
+    });

@@ -34,7 +34,7 @@ const items = nav.map((item) => ({
 
     <nav
       aria-label="Navigation principale"
-      class="hidden items-center gap-3 lg:flex"
+      class="hidden items-center gap-3 xl:flex"
     >
       {
         [
@@ -83,7 +83,7 @@ const items = nav.map((item) => ({
           </a>
         )
       }
-      <MobileNav client:media="(max-width: 1023px)" items={items} cta={cta} />
+      <MobileNav client:media="(max-width: 1279px)" items={items} cta={cta} />
     </div>
   </div>
 </header>
