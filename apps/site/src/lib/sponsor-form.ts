@@ -2,7 +2,6 @@
  * Browser-side logic of the partner form (/sponsors), kept free of DOM code so it can be tested.
  * The payload matches `POST /forms/sponsor` of the Worker in apps/worker.
  */
-import type { Choice } from '../data/sponsoring';
 
 export interface SponsorPayload {
   company: string;
@@ -11,20 +10,17 @@ export interface SponsorPayload {
   role: string;
   email: string;
   phone: string;
-  tier: Choice | undefined;
+  /** A tier id; the Worker looks up its label. */
+  tier: string | undefined;
   message: string;
 }
 
 /** Request header carrying the Turnstile token, as expected by the Worker. */
 export const TURNSTILE_HEADER = 'Turnstile-Token';
 
-/**
- * Turns the submitted form into the API payload. The tier radio's value is a choice id,
- * looked up in `choices` so the API receives the label the visitor saw.
- */
-export function buildPayload(data: FormData, choices: Record<string, Choice>): SponsorPayload {
+/** Turns the submitted form into the API payload. */
+export function buildPayload(data: FormData): SponsorPayload {
   const text = (name: string) => String(data.get(name) ?? '');
-  const choice = (id: FormDataEntryValue | null) => (id === null ? undefined : choices[String(id)]);
 
   return {
     company: text('company'),
@@ -33,7 +29,7 @@ export function buildPayload(data: FormData, choices: Record<string, Choice>): S
     role: text('role'),
     email: text('email'),
     phone: text('phone'),
-    tier: choice(data.get('tier')),
+    tier: data.has('tier') ? text('tier') : undefined,
     message: text('message'),
   };
 }

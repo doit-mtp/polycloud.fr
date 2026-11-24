@@ -10,6 +10,7 @@ export const links = {
 export const nav: { label: string; href: string; secondary?: boolean }[] = [
   { label: 'Accueil', href: '/' },
   { label: 'Sponsors', href: '/#sponsors', secondary: true },
+  { label: 'Devenir sponsor', href: '/sponsors', secondary: true },
   { label: 'Accès', href: '/#informations', secondary: true },
   { label: 'Programme', href: '/programme' },
   { label: 'Speakers', href: '/speaker' },

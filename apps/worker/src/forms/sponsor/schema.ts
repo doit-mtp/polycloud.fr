@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { tierChoices } from '../../../../site/src/data/sponsoring';
 import { choice, email, optionalText, requiredText } from '../fields';
 
 /** The JSON body posted by the sponsor form. */
@@ -10,7 +11,7 @@ export const sponsorRequestBody = z.object({
   role: optionalText(200),
   email: email(),
   phone: optionalText(50),
-  tier: choice(),
+  tier: choice(tierChoices),
   message: optionalText(5000),
 });
 

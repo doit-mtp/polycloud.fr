@@ -1,9 +1,10 @@
 /**
  * The 2027 sponsoring offer shown on /sponsors. This is the only place prices live:
- * the form sends the chosen tier with the label built here, and the API stores it as is.
+ * the form sends the chosen tier's id, and the Worker (apps/worker) imports this file for its label.
+ * Keep it free of site-only imports.
  */
 
-/** A choice sent to the API: a stable id plus the label shown to the visitor. */
+/** A tier choice: the stable id sent to the API, and the label stored and emailed by the Worker. */
 export type Choice = { id: string; label: string };
 
 export interface TierOffer {
@@ -73,3 +74,6 @@ export const tierChoice = (t: TierOffer): Choice => ({
   id: t.id,
   label: [t.name, `${formatEur(t.priceEur)} HT`, t.slots].filter(Boolean).join(' · '),
 });
+
+/** Every choice the form offers. The Worker refuses any other id. */
+export const tierChoices: Choice[] = [...tiers.map(tierChoice), undecidedTier];

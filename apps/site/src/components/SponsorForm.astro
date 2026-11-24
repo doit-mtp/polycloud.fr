@@ -1,11 +1,6 @@
 ---
-import { tiers, undecidedTier, tierChoice, formatEur, type Choice } from "../data/sponsoring";
+import { tiers, undecidedTier, formatEur } from "../data/sponsoring";
 import { sponsorForm } from "../data/site";
-
-// Each tier radio's value is a choice id; the client script sends the matching one-line label to the API.
-const choices: Record<string, Choice> = Object.fromEntries(
-  [...tiers.map(tierChoice), undecidedTier].map((c) => [c.id, c]),
-);
 
 const input =
   "mt-2 block w-full rounded-2xl border-0 bg-white px-4 py-3 text-plum-950 ring-1 ring-plum-900/10 placeholder:text-plum-950/40 focus:ring-2 focus:ring-plum-600 focus:outline-none aria-invalid:ring-2 aria-invalid:ring-red-600";
@@ -32,7 +27,6 @@ const textFields = [
     novalidate
     data-api-url={sponsorForm.apiUrl}
     data-email={sponsorForm.email}
-    data-choices={JSON.stringify(choices)}
   >
     <p class="text-sm text-plum-950/60"><span aria-hidden="true">*</span> champ obligatoire</p>
 
@@ -168,13 +162,11 @@ const textFields = [
     turnstileToken,
     TURNSTILE_HEADER,
   } from "../lib/sponsor-form";
-  import type { Choice } from "../data/sponsoring";
 
   const form = document.querySelector<HTMLFormElement>("#sponsor-form")!;
   const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
   const formError = form.querySelector<HTMLElement>("#form-error")!;
   const thanks = document.querySelector<HTMLElement>("#sponsor-form-thanks")!;
-  const choices: Record<string, Choice> = JSON.parse(form.dataset.choices!);
 
   function clearErrors() {
     formError.hidden = true;
@@ -214,7 +206,7 @@ const textFields = [
   const submit = submitOnce(async () => {
     clearErrors();
     const data = new FormData(form);
-    const payload = buildPayload(data, choices);
+    const payload = buildPayload(data);
     const token = turnstileToken(data);
     const notReady = checkBeforeSend(token, turnstileUnavailable(), form.dataset.email!);
     if (notReady) {

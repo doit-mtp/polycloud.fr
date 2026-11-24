@@ -47,7 +47,7 @@ Success: `201 { ok: true }`. Errors: `{ ok: false, error: <code> }`, plus `field
 ```ts
 {
   company: string; contactName: string; email: string;
-  tier: { id: string; label: string };
+  tier: string; // a tier id from apps/site/src/data/sponsoring.ts, which also gives its label
   website?: string; role?: string; phone?: string; message?: string;
 }
 ```
