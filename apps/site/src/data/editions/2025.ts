@@ -28,7 +28,7 @@ const edition: Edition = {
       topic: 'security',
       advanced: true,
       title: 'Making End-to-End Encryption User-Friendly in Distributed Systems',
-      speakers: ['Tristan Radulescu'],
+      speakers: ['Tristan-Mihai Radulescu'],
       video: 'https://www.youtube.com/watch?v=fYSy4kzkuiM',
     },
     {
